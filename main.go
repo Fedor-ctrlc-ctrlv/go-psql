@@ -9,14 +9,15 @@ import (
 )
 
 type employee struct {
-	id                int
-	first_name        string
-	last_name         string
-	gender            string
-	birth_year        int
-	position          string
-	employment_months int
-	salary            float64
+	id                  int
+	first_name          string
+	last_name           string
+	gender              string
+	birth_year          int
+	position            string
+	employment_months   int
+	salary              float64
+	employment_duration string
 }
 
 func main() {
@@ -27,4 +28,24 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	rows, err := db.Query("select * from employees;")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	employees := []employee{}
+
+	for rows.Next() {
+		e := employee{}
+		err := rows.Scan(&e.id, &e.first_name, &e.last_name, &e.gender, &e.birth_year, &e.position, &e.employment_months, &e.salary, &e.employment_duration)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		employees = append(employees, e)
+	}
+	for _, e := range employees {
+		fmt.Println(e.id, e.first_name, e.last_name, e.salary)
+	}
 }
