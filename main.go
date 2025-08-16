@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -28,8 +31,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
-
-	rows, err := db.Query("select * from employees;")
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Введите SQL запрос: ")
+	zapr, _ := reader.ReadString('\n')
+	zapr = strings.TrimSpace(zapr) // Удаляем переносы строк
+	zapr = strings.TrimSuffix(zapr, ";")
+	rows, err := db.Query(zapr)
 	if err != nil {
 		panic(err)
 	}
