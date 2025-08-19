@@ -31,12 +31,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Введите SQL запрос: ")
-	zapr, _ := reader.ReadString('\n')
-	zapr = strings.TrimSpace(zapr) // Удаляем переносы строк
-	zapr = strings.TrimSuffix(zapr, ";")
-	rows, err := db.Query(zapr)
+	//reader := bufio.NewReader(os.Stdin)
+	//fmt.Print("Введите SQL запрос: ")
+	//zapr, _ := reader.ReadString('\n')
+	//zapr = strings.TrimSpace(zapr)
+	//zapr = strings.TrimSuffix(zapr, ";")
+	rows, err := db.Query(//zapr)
 	if err != nil {
 		panic(err)
 	}
