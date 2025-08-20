@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 func mainMenu() {
 	fmt.Println("\n Главное меню")
@@ -10,7 +16,7 @@ func mainMenu() {
 	fmt.Println("0. Выход")
 }
 
-func searchMenu() {
+func frontsearchMenu() {
 	fmt.Println("\n Меню поиска:")
 	fmt.Println("1. Поиск по ID")
 	fmt.Println("2. Поиск по имени")
@@ -22,7 +28,7 @@ func searchMenu() {
 	fmt.Println("0. Назад")
 }
 
-func deleteMenu() {
+func frontdeleteMenu() {
 	fmt.Println("\n Меню удаления:")
 	fmt.Println("1. Удалить по ID")
 	fmt.Println("2. Удалить по имени")
@@ -30,7 +36,7 @@ func deleteMenu() {
 	fmt.Println("0. Назад")
 }
 
-func updateMenu() {
+func frontupdateMenu() {
 	fmt.Println("\n Меню изменения:")
 	fmt.Println("1. Изменить зарплату")
 	fmt.Println("2. Изменить имя")
@@ -85,5 +91,23 @@ func backUpdate(choice int, id, value string) string {
 		return fmt.Sprintf("UPDATE employees SET position = '%s' WHERE id = %s", value, id)
 	default:
 		return ""
+	}
+}
+
+func getInput(s string) string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print(s)
+	input, _ := reader.ReadString('\n')
+	return strings.TrimSpace(input)
+}
+
+func getInt(s string) int {
+	for {
+		input := getInput(s)
+		num, err := strconv.Atoi(input)
+		if err == nil {
+			return num
+		}
+		fmt.Println("Ошибка: введите число")
 	}
 }
